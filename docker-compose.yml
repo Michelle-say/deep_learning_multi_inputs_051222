@@ -1,0 +1,33 @@
+version: "3.8"
+
+networks:
+  AIservice:
+
+services:
+  frontend:
+    build: Streamlit
+    ports:
+      - 8501:8501
+    networks: 
+      AIservice: 
+        aliases: 
+          - frontend.docker
+    depends_on:
+      - backend
+    volumes:
+        - ./Streamlit:/app
+        - ./storage:/storage
+
+  backend:
+    build: API
+    ports:
+      - 8000:8000
+    networks: 
+      AIservice: 
+        aliases: 
+          - backend.docker
+    volumes:
+      - ./API:/app
+      - ./storage:/storage
+  
+  
